@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn Môn Học - Hệ Thống Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 70px;
+            height: 70px;
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+            background: linear-gradient(135deg, #fff, #e3f2fd);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+        }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 20px rgba(255,255,255,0.3)); }
+            to { filter: drop-shadow(0 0 30px rgba(255,255,255,0.6)); }
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .subject-card {
+            position: relative;
+            width: 280px;
+            height: 380px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            text-decoration: none;
+            color: #2c3e50;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: cardAppear 0.8s ease-out;
+        }
+
+        .subject-card:nth-child(1) { animation-delay: 0.1s; }
+        .subject-card:nth-child(2) { animation-delay: 0.2s; }
+        .subject-card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .subject-card:hover::before {
+            left: 100%;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .subject-card:active {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .subject-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .subject-card:nth-child(1) .subject-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+        }
+
+        .subject-card:nth-child(2) .subject-icon {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .subject-card:nth-child(3) .subject-icon {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+        }
+
+        .subject-card:hover .subject-icon {
+            transform: rotateY(180deg) scale(1.1);
+        }
+
+        .subject-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subject-description {
+            font-size: 1rem;
+            color: #7f8c8d;
+            line-height: 1.6;
+            padding: 0 20px;
+            margin-bottom: 25px;
+        }
+
+        .subject-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: 0 30px;
+            margin-top: auto;
+            padding-bottom: 25px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3498db;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pulse-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+            opacity: 0;
+        }
+
+        .subject-card:hover .pulse-effect {
+            opacity: 1;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            z-index: 100;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                gap: 25px;
+                padding: 20px;
+            }
+            
+            .subject-card {
+                width: 250px;
+                height: 320px;
+            }
+            
+            .subject-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 3rem;
+            }
+            
+            .subject-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .subject-card {
+                width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="bg-animation">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="header">
+        <h1>🎓 Hệ Thống Quiz Học Tập</h1>
+        <p>Chọn môn học để bắt đầu hành trình khám phá kiến thức của bạn</p>
+    </div>
+
+    <div class="container">
+        <a href="subjects/cnxh.html" class="subject-card">
+            <div class="pulse-effect"></div>
+            <div class="subject-icon">🚩</div>
+            <h2 class="subject-title">CNXH</h2>
+            <p class="subject-description">Chủ Nghĩa Xã Hội - Tìm hiểu về lý thuyết Marxist-Leninist và xây dựng xã hội CNXH</p>
+            <div class="subject-stats">
+                <div class="stat">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Chủ đề</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">80+</span>
+                    <span class="stat-label">Câu hỏi</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="subjects/tthcm.html" class="subject-card">
+            <div class="pulse-effect"></div>
+            <div class="subject-icon">🌟</div>
+            <h2 class="subject-title">TT HCM</h2>
+            <p class="subject-description">Tư Tưởng Hồ Chí Minh - Nghiên cứu tư tưởng và đạo đức của Chủ tịch Hồ Chí Minh</p>
+            <div class="subject-stats">
+                <div class="stat">
+                    <span class="stat-number">4</span>
+                    <span class="stat-label">Chủ đề</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">60+</span>
+                    <span class="stat-label">Câu hỏi</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="subjects/lsd.html" class="subject-card">
+            <div class="pulse-effect"></div>
+            <div class="subject-icon">📚</div>
+            <h2 class="subject-title">LSĐ</h2>
+            <p class="subject-description">Lịch Sử Đảng - Tìm hiểu về lịch sử hình thành và phát triển của Đảng Cộng sản Việt Nam</p>
+            <div class="subject-stats">
+                <div class="stat">
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Chủ đề</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">90+</span>
+                    <span class="stat-label">Câu hỏi</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>✨ Chúc bạn học tập hiệu quả và đạt kết quả cao!</p>
+        <p>📖 Kiến thức là sức mạnh, học tập là con đường dẫn đến thành công</p>
+    </div>
+
+    <div class="progress-indicator">
+        <span id="progressText">3</span>
+    </div>
+
+    <script>
+        // Add smooth scrolling and interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.subject-card');
+            
+            // Add click sound effect simulation
+            cards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = (e.clientX - e.target.offsetLeft) + 'px';
+                    ripple.style.top = (e.clientY - e.target.offsetTop) + 'px';
+                    ripple.style.width = ripple.style.height = '20px';
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+                
+                // Add hover sound simulation
+                card.addEventListener('mouseenter', function() {
+                    this.style.filter = 'brightness(1.05)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.filter = 'brightness(1)';
+                });
+            });
+            
+            // Update progress indicator
+            const updateProgress = () => {
+                const scrolled = window.scrollY;
+                const maxScroll = document.body.scrollHeight - window.innerHeight;
+                const progress = Math.round((scrolled / maxScroll) * 100) || 0;
+                document.getElementById('progressText').textContent = progress + '%';
+            };
+            
+            window.addEventListener('scroll', updateProgress);
+        });
+        
+        // Add CSS for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

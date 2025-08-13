@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Chủ Nghĩa Xã Hội</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>🚩 Quiz Chủ Nghĩa Xã Hội</h1>
+    </div>
+
+    <div class="quiz-container">
+        <div class="quiz-card" style="animation-delay: 0.1s">
+            <div class="quiz-icon">⚒️</div>
+            <h2 class="quiz-title">Sứ Mệnh Lịch Sử Giai Cấp Công Nhân</h2>
+            <p class="quiz-description">Tìm hiểu về vai trò lịch sử của giai cấp công nhân trong việc xây dựng xã hội xã hội chủ nghĩa.</p>
+            <button class="quiz-button" onclick="openQuiz('https://wayground.com/embed/quiz/65a9f7a33069876738720fab', 'Sứ Mệnh Lịch Sử Giai Cấp Công Nhân')">
+                Bắt Đầu Quiz
+            </button>
+        </div>
+
+        <div class="quiz-card" style="animation-delay: 0.2s">
+            <div class="quiz-icon">🏛️</div>
+            <h2 class="quiz-title">CNXH và Thời Kì Quá Độ</h2>
+            <p class="quiz-description">Nghiên cứu về chủ nghĩa xã hội và giai đoạn chuyển đổi từ chủ nghĩa tư bản sang chủ nghĩa xã hội.</p>
+            <button class="quiz-button" onclick="openQuiz('https://wayground.com/embed/quiz/63fb5ae18a265c001f7aa89e', 'CNXH và Thời Kì Quá Độ lên CNXH')">
+                Bắt Đầu Quiz
+            </button>
+        </div>
+
+        <div class="quiz-card" style="animation-delay: 0.3s">
+            <div class="quiz-icon">👥</div>
+            <h2 class="quiz-title">Cơ Cấu Xã Hội - Giai Cấp (Phần 1)</h2>
+            <p class="quiz-description">Phân tích cấu trúc xã hội và mối quan hệ giữa các giai cấp trong xã hội hiện đại.</p>
+            <button class="quiz-button" onclick="openQuiz('https://wayground.com/embed/quiz/665852f41118150227e73236', 'Cơ Cấu Xã Hội - Giai Cấp (Phần 1)')">
+                Bắt Đầu Quiz
+            </button>
+        </div>
+
+        <div class="quiz-card" style="animation-delay: 0.4s">
+            <div class="quiz-icon">⚖️</div>
+            <h2 class="quiz-title">Cơ Cấu Xã Hội - Giai Cấp (Phần 2)</h2>
+            <p class="quiz-description">Tiếp tục khám phá các khía cạnh phức tạp của cấu trúc xã hội và đấu tranh giai cấp.</p>
+            <button class="quiz-button" onclick="openQuiz('https://wayground.com/embed/quiz/688e3d16675994b32cf5ab72', 'Cơ Cấu Xã Hội - Giai Cấp (Phần 2)')">
+                Bắt Đầu Quiz
+            </button>
+        </div>
+
+        <div class="quiz-card" style="animation-delay: 0.5s">
+            <div class="quiz-icon">🌍</div>
+            <h2 class="quiz-title">Vấn Đề Dân Tộc</h2>
+            <p class="quiz-description">Tìm hiểu về vấn đề dân tộc trong lý thuyết Marxist-Leninist và thực tiễn xây dựng CNXH.</p>
+            <button class="quiz-button" onclick="openQuiz('https://wayground.com/embed/quiz/623875f3801c77001d422ec0', 'Vấn Đề Dân Tộc')">
+                Bắt Đầu Quiz
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="quiz-modal" id="quizModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Quiz</h3>
+                <button class="close-button" onclick="closeQuiz()">✕</button>
+            </div>
+            <iframe class="modal-iframe" id="quizFrame" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
